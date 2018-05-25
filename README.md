@@ -3,7 +3,7 @@ Demo interprocess communication via Deep Link using React Native framework
 
 ### Receiving data from outside
 - Receive scheme format: `solosigner://sign/{caller_id}/{something}`
-    - `{caller_id}`: Identification of the caller
+    - `{caller_id}`: Identification of the caller. ex: Android application Id or iOS Bundle Identifier
     - `{something}`: message from the caller
 - Android configuration
     - scheme: `solosigner`
