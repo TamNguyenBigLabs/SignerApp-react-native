@@ -13,28 +13,28 @@ import {
 export default class SignerScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {message: 'hello', responseLink: 'solowallet://result/'};
+        this.state = {responseMessage: 'hello', responseLink: 'solowallet://result/'};
     }
     render() {
         const { navigate } = this.props.navigation;
-        const { name } = this.props.navigation.state.params;
+        const { caller, inMessage } = this.props.navigation.state.params;
         return (
             <View style={styles.container}>
-                {this.setState({responseLink: "solowallet://result/" + this.state.message + " " + name})}
                 <Text style={styles.text}>
-                    Welcome {name}!
+                    Welcome {inMessage}!
                 </Text>
             
                 <TextInput
                     style={{width:200, height: 40}}
                     placeholder="message"
                     onChangeText={(text) => this.setState({
-                        message: text,
-                        responseLink: "solowallet://result/" + text + " " + name
+                        responseMessage: text,
+                        responseLink: "solowallet://result/" + caller + "/" + text + " " + inMessage
                     })}
                 />
 
-                <Button title={"Say " + this.state.message + " to " + name} onPress={() =>
+                <Button title={"Say " + this.state.responseMessage + " to " + inMessage} onPress={() => {
+                    this.setState({responseLink: "solowallet://result/" + caller + "/" + this.state.responseMessage + " " + inMessage});
                     Linking.canOpenURL(this.state.responseLink).then(supported => {
                         navigate("Home")
                         if (supported) {
@@ -42,7 +42,7 @@ export default class SignerScreen extends React.Component {
                         } else {
                           console.log("Don't know how to open URI: " +this.state.responseLink);
                         }
-                    })
+                    });}
                 }/>
             </View>
         );

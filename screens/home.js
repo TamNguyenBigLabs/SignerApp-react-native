@@ -42,13 +42,16 @@ export default class HomeScreen extends React.Component {
     }
     
     navigate = (url) => {
-        //solosigner://sign/blabla
+        //solosigner://sign/client_id/blabla
         const { navigate } = this.props.navigation;
         const route = url.replace(/.*?:\/\//g, '');
-        const routeName = route.split('/')[0];
-        const param = route.split('/')[1];
-        if (routeName === 'sign') {
-            navigate('Signer', { name: param })
+        
+        const spliter = route.split('/');
+        const host = spliter[0];
+        const callerId = spliter[1];
+        const param = spliter[2];
+        if (host === 'sign') {
+            navigate('Signer', { caller: callerId, inMessage: param })
         };
     }
     
@@ -60,7 +63,7 @@ export default class HomeScreen extends React.Component {
               Welcome to SOLO Signer!
             </Text>
             <Text style={styles.instructions}>
-              To get started, edit App.js
+              To get started, edit screens/home.js
             </Text>
             <Text style={styles.instructions}>
               {instructions}
@@ -68,7 +71,7 @@ export default class HomeScreen extends React.Component {
             
             <Button title="Open Signer"
                 onPress={() =>
-                  navigate('Signer', { name: 'Jane' })
+                  navigate('Signer', { caller: 'callerId', inMessage: 'Jane' })
                 }
             />
             
